@@ -1,0 +1,1491 @@
+{
+  "schema_version": "1.0",
+  "generator_version": "1.0.0",
+  "generated_at": "2026-04-19T13:02:43.447411+00:00",
+  "constants": {
+    "gpus": {
+      "h100": {
+        "name": "H100 SXM5",
+        "arch": "Hopper",
+        "bf16_tflops": 989.0,
+        "fp8_tflops": 1979.0,
+        "fp4_tflops": 0.0,
+        "hbm_gb": 80.0,
+        "hbm_bw_tbs": 3.35,
+        "nvlink_bw_gbs": 900.0,
+        "tdp_w": 700,
+        "price_cny": 250000,
+        "available_year": 2023
+      },
+      "h200": {
+        "name": "H200 SXM5",
+        "arch": "Hopper",
+        "bf16_tflops": 989.0,
+        "fp8_tflops": 1979.0,
+        "fp4_tflops": 0.0,
+        "hbm_gb": 141.0,
+        "hbm_bw_tbs": 4.8,
+        "nvlink_bw_gbs": 900.0,
+        "tdp_w": 700,
+        "price_cny": 320000,
+        "available_year": 2024
+      },
+      "b200": {
+        "name": "B200 SXM",
+        "arch": "Blackwell",
+        "bf16_tflops": 2250.0,
+        "fp8_tflops": 4500.0,
+        "fp4_tflops": 9000.0,
+        "hbm_gb": 192.0,
+        "hbm_bw_tbs": 8.0,
+        "nvlink_bw_gbs": 1800.0,
+        "tdp_w": 1000,
+        "price_cny": 450000,
+        "available_year": 2025
+      },
+      "gb200": {
+        "name": "GB200 (per GPU, NVL72)",
+        "arch": "Blackwell + Grace",
+        "bf16_tflops": 2500.0,
+        "fp8_tflops": 5000.0,
+        "fp4_tflops": 10000.0,
+        "hbm_gb": 192.0,
+        "hbm_bw_tbs": 8.0,
+        "nvlink_bw_gbs": 1800.0,
+        "tdp_w": 1200,
+        "price_cny": 550000,
+        "available_year": 2025
+      }
+    },
+    "servers": {
+      "hgx_h100": {
+        "name": "HGX H100 8-GPU 节点 (Air Cooled)",
+        "gpu_key": "h100",
+        "gpu_per_node": 8,
+        "cpu_cores": 112,
+        "sysmem_gb": 2048,
+        "nvme_tb": 30,
+        "node_tdp_w": 10200,
+        "node_price_cny": 2400000,
+        "rack_u": 42,
+        "rack_gpu_density": 32
+      },
+      "hgx_h200": {
+        "name": "HGX H200 8-GPU 节点 (Liquid Cooled)",
+        "gpu_key": "h200",
+        "gpu_per_node": 8,
+        "cpu_cores": 128,
+        "sysmem_gb": 2048,
+        "nvme_tb": 30,
+        "node_tdp_w": 10400,
+        "node_price_cny": 2950000,
+        "rack_u": 42,
+        "rack_gpu_density": 64
+      },
+      "hgx_b200": {
+        "name": "HGX B200 8-GPU 节点 (DLC)",
+        "gpu_key": "b200",
+        "gpu_per_node": 8,
+        "cpu_cores": 128,
+        "sysmem_gb": 2048,
+        "nvme_tb": 30,
+        "node_tdp_w": 14300,
+        "node_price_cny": 4100000,
+        "rack_u": 42,
+        "rack_gpu_density": 64
+      },
+      "gb200_nvl72": {
+        "name": "GB200 NVL72 (整机柜液冷)",
+        "gpu_key": "gb200",
+        "gpu_per_node": 72,
+        "cpu_cores": 2592,
+        "sysmem_gb": 17280,
+        "nvme_tb": 200,
+        "node_tdp_w": 120000,
+        "node_price_cny": 28000000,
+        "rack_u": 42,
+        "rack_gpu_density": 72
+      }
+    },
+    "nics": {
+      "ib_ndr": {
+        "name": "InfiniBand NDR (400 Gbps)",
+        "rate_gbps": 400,
+        "ports_per_gpu": 1.0,
+        "switch_radix": 64,
+        "switch_price_cny": 950000,
+        "nic_price_cny": 22000,
+        "cable_price_cny": 4500
+      },
+      "ib_xdr": {
+        "name": "InfiniBand XDR (800 Gbps)",
+        "rate_gbps": 800,
+        "ports_per_gpu": 1.0,
+        "switch_radix": 144,
+        "switch_price_cny": 1900000,
+        "nic_price_cny": 42000,
+        "cable_price_cny": 8000
+      },
+      "spectrum_x_400": {
+        "name": "Spectrum-X Ethernet 400 Gbps",
+        "rate_gbps": 400,
+        "ports_per_gpu": 1.0,
+        "switch_radix": 64,
+        "switch_price_cny": 750000,
+        "nic_price_cny": 18000,
+        "cable_price_cny": 4000
+      },
+      "spectrum_x_800": {
+        "name": "Spectrum-X Ethernet 800 Gbps",
+        "rate_gbps": 800,
+        "ports_per_gpu": 1.0,
+        "switch_radix": 128,
+        "switch_price_cny": 1600000,
+        "nic_price_cny": 36000,
+        "cable_price_cny": 7200
+      }
+    },
+    "storage": {
+      "weka_nvme": {
+        "name": "WekaFS All-NVMe Tier-0",
+        "raw_pb": 10.0,
+        "read_gbs": 2000.0,
+        "write_gbs": 1500.0,
+        "price_per_tb_cny": 22000
+      },
+      "lustre_hybrid": {
+        "name": "Lustre + DDN ES400NVX2 Tier-1",
+        "raw_pb": 50.0,
+        "read_gbs": 1200.0,
+        "write_gbs": 900.0,
+        "price_per_tb_cny": 4500
+      },
+      "ceph_archive": {
+        "name": "Ceph QLC Archive Tier-2",
+        "raw_pb": 200.0,
+        "read_gbs": 200.0,
+        "write_gbs": 120.0,
+        "price_per_tb_cny": 900
+      }
+    },
+    "scenarios": {
+      "conservative": {
+        "id": "conservative",
+        "label": "保守 (Conservative)",
+        "n_total": 600000000000.0,
+        "n_active": 40000000000.0,
+        "n_layers": 72,
+        "hidden": 8192,
+        "n_heads": 64,
+        "head_dim": 128,
+        "n_experts": 128,
+        "top_k": 8,
+        "ctx_len": 262144,
+        "train_tokens": 12000000000000.0
+      },
+      "baseline": {
+        "id": "baseline",
+        "label": "基准 (Baseline · 本课主用)",
+        "n_total": 1000000000000.0,
+        "n_active": 64000000000.0,
+        "n_layers": 88,
+        "hidden": 10240,
+        "n_heads": 80,
+        "head_dim": 128,
+        "n_experts": 160,
+        "top_k": 8,
+        "ctx_len": 524288,
+        "train_tokens": 20000000000000.0
+      },
+      "frontier": {
+        "id": "frontier",
+        "label": "前沿 (Frontier)",
+        "n_total": 2000000000000.0,
+        "n_active": 128000000000.0,
+        "n_layers": 120,
+        "hidden": 12288,
+        "n_heads": 96,
+        "head_dim": 128,
+        "n_experts": 256,
+        "top_k": 8,
+        "ctx_len": 1048576,
+        "train_tokens": 40000000000000.0
+      }
+    },
+    "physics": {
+      "power_price_cny_per_kwh": 0.6,
+      "water_price_cny_per_m3": 6.0,
+      "pue_air": 1.4,
+      "pue_liquid": 1.15,
+      "pue_immersion": 1.08,
+      "wue_liquid": 0.3,
+      "grid_co2_kg_per_kwh": 0.581,
+      "rack_power_air_kw": 35,
+      "rack_power_liquid_kw": 80,
+      "rack_power_gb200_kw": 132
+    },
+    "opex": {
+      "headcount_salary_cny": 600000,
+      "maint_rate_of_capex": 0.04
+    },
+    "training": {
+      "mfu": {
+        "h100": 0.36,
+        "h200": 0.4,
+        "b200": 0.42,
+        "gb200": 0.45
+      },
+      "compute_overhead_factor": 1.3333333333333333
+    }
+  },
+  "scaling": {
+    "conservative": {
+      "scenario_id": "conservative",
+      "n_total": 600000000000.0,
+      "n_active": 40000000000.0,
+      "train_tokens": 12000000000000.0,
+      "flops_dense_naive": 4.32e+25,
+      "flops_moe_naive": 2.88e+24,
+      "flops_engineering": 3.8399999999999995e+24,
+      "petaflop_day": 44444.44444444444,
+      "yotta_flops": 3.8399999999999994
+    },
+    "baseline": {
+      "scenario_id": "baseline",
+      "n_total": 1000000000000.0,
+      "n_active": 64000000000.0,
+      "train_tokens": 20000000000000.0,
+      "flops_dense_naive": 1.2e+26,
+      "flops_moe_naive": 7.68e+24,
+      "flops_engineering": 1.024e+25,
+      "petaflop_day": 118518.51851851853,
+      "yotta_flops": 10.24
+    },
+    "frontier": {
+      "scenario_id": "frontier",
+      "n_total": 2000000000000.0,
+      "n_active": 128000000000.0,
+      "train_tokens": 40000000000000.0,
+      "flops_dense_naive": 4.8e+26,
+      "flops_moe_naive": 3.072e+25,
+      "flops_engineering": 4.096e+25,
+      "petaflop_day": 474074.0740740741,
+      "yotta_flops": 40.96
+    }
+  },
+  "cluster": {
+    "target_60d": {
+      "conservative": {
+        "h100": {
+          "scenario_id": "conservative",
+          "gpu_key": "h100",
+          "n_gpu": 2080,
+          "days": 60.01438424761646,
+          "gpu_hours": 2995918.0616410137,
+          "mfu": 0.36,
+          "sustained_pflops": 740.5631999999999
+        },
+        "h200": {
+          "scenario_id": "conservative",
+          "gpu_key": "h200",
+          "n_gpu": 1872,
+          "days": 60.01438424761646,
+          "gpu_hours": 2696326.2554769125,
+          "mfu": 0.4,
+          "sustained_pflops": 740.5632
+        },
+        "b200": {
+          "scenario_id": "conservative",
+          "gpu_key": "b200",
+          "n_gpu": 784,
+          "days": 59.98872212024139,
+          "gpu_hours": 1128747.795414462,
+          "mfu": 0.42,
+          "sustained_pflops": 740.88
+        },
+        "gb200": {
+          "scenario_id": "conservative",
+          "gpu_key": "gb200",
+          "n_gpu": 720,
+          "days": 54.869684499314126,
+          "gpu_hours": 948148.1481481481,
+          "mfu": 0.45,
+          "sustained_pflops": 810.0
+        }
+      },
+      "baseline": {
+        "h100": {
+          "scenario_id": "baseline",
+          "gpu_key": "h100",
+          "n_gpu": 5552,
+          "days": 59.956733542287346,
+          "gpu_hours": 7989114.831042704,
+          "mfu": 0.36,
+          "sustained_pflops": 1976.73408
+        },
+        "h200": {
+          "scenario_id": "baseline",
+          "gpu_key": "h200",
+          "n_gpu": 5000,
+          "days": 59.91836123282028,
+          "gpu_hours": 7190203.347938433,
+          "mfu": 0.4,
+          "sustained_pflops": 1978.0
+        },
+        "b200": {
+          "scenario_id": "baseline",
+          "gpu_key": "b200",
+          "n_gpu": 2096,
+          "days": 59.83607906141126,
+          "gpu_hours": 3009994.1211052323,
+          "mfu": 0.42,
+          "sustained_pflops": 1980.72
+        },
+        "gb200": {
+          "scenario_id": "baseline",
+          "gpu_key": "gb200",
+          "n_gpu": 1800,
+          "days": 58.52766346593506,
+          "gpu_hours": 2528395.061728395,
+          "mfu": 0.45,
+          "sustained_pflops": 2025.0
+        }
+      },
+      "frontier": {
+        "h100": {
+          "scenario_id": "frontier",
+          "gpu_key": "h100",
+          "n_gpu": 22192,
+          "days": 59.99996118002512,
+          "gpu_hours": 31956459.324170817,
+          "mfu": 0.36,
+          "sustained_pflops": 7901.23968
+        },
+        "h200": {
+          "scenario_id": "frontier",
+          "gpu_key": "h200",
+          "n_gpu": 19976,
+          "days": 59.99034965240317,
+          "gpu_hours": 28760813.391753733,
+          "mfu": 0.4,
+          "sustained_pflops": 7902.5056
+        },
+        "b200": {
+          "scenario_id": "frontier",
+          "gpu_key": "b200",
+          "n_gpu": 8368,
+          "days": 59.95048839040058,
+          "gpu_hours": 12039976.48442093,
+          "mfu": 0.42,
+          "sustained_pflops": 7907.76
+        },
+        "gb200": {
+          "scenario_id": "frontier",
+          "gpu_key": "gb200",
+          "n_gpu": 7056,
+          "days": 59.72210557748476,
+          "gpu_hours": 10113580.24691358,
+          "mfu": 0.45,
+          "sustained_pflops": 7938.0
+        }
+      }
+    },
+    "target_90d": {
+      "conservative": {
+        "h100": {
+          "scenario_id": "conservative",
+          "gpu_key": "h100",
+          "n_gpu": 1392,
+          "days": 89.67666611712805,
+          "gpu_hours": 2995918.0616410137,
+          "mfu": 0.36,
+          "sustained_pflops": 495.60768
+        },
+        "h200": {
+          "scenario_id": "conservative",
+          "gpu_key": "h200",
+          "n_gpu": 1248,
+          "days": 90.02157637142469,
+          "gpu_hours": 2696326.2554769125,
+          "mfu": 0.4,
+          "sustained_pflops": 493.70880000000005
+        },
+        "b200": {
+          "scenario_id": "conservative",
+          "gpu_key": "b200",
+          "n_gpu": 528,
+          "days": 89.07416314823722,
+          "gpu_hours": 1128747.795414462,
+          "mfu": 0.42,
+          "sustained_pflops": 498.96
+        },
+        "gb200": {
+          "scenario_id": "conservative",
+          "gpu_key": "gb200",
+          "n_gpu": 504,
+          "days": 78.38526357044874,
+          "gpu_hours": 948148.1481481481,
+          "mfu": 0.45,
+          "sustained_pflops": 567.0
+        }
+      },
+      "baseline": {
+        "h100": {
+          "scenario_id": "baseline",
+          "gpu_key": "h100",
+          "n_gpu": 3704,
+          "days": 89.87035222105274,
+          "gpu_hours": 7989114.831042704,
+          "mfu": 0.36,
+          "sustained_pflops": 1318.77216
+        },
+        "h200": {
+          "scenario_id": "baseline",
+          "gpu_key": "h200",
+          "n_gpu": 3328,
+          "days": 90.0215763714247,
+          "gpu_hours": 7190203.347938433,
+          "mfu": 0.4,
+          "sustained_pflops": 1316.5568
+        },
+        "b200": {
+          "scenario_id": "baseline",
+          "gpu_key": "b200",
+          "n_gpu": 1400,
+          "days": 89.58315836622715,
+          "gpu_hours": 3009994.1211052323,
+          "mfu": 0.42,
+          "sustained_pflops": 1323.0
+        },
+        "gb200": {
+          "scenario_id": "baseline",
+          "gpu_key": "gb200",
+          "n_gpu": 1224,
+          "days": 86.07009333225744,
+          "gpu_hours": 2528395.061728395,
+          "mfu": 0.45,
+          "sustained_pflops": 1377.0
+        },
+        "b200_selected": {
+          "scenario_id": "baseline",
+          "gpu_key": "b200",
+          "n_gpu": 2048,
+          "days": 61.238487164413094,
+          "gpu_hours": 3009994.1211052323,
+          "mfu": 0.42,
+          "sustained_pflops": 1935.36
+        },
+        "gb200_selected": {
+          "scenario_id": "baseline",
+          "gpu_key": "gb200",
+          "n_gpu": 2304,
+          "days": 45.72473708276177,
+          "gpu_hours": 2528395.061728395,
+          "mfu": 0.45,
+          "sustained_pflops": 2592.0
+        }
+      },
+      "frontier": {
+        "h100": {
+          "scenario_id": "frontier",
+          "gpu_key": "h100",
+          "n_gpu": 14800,
+          "days": 89.96750935858901,
+          "gpu_hours": 31956459.324170817,
+          "mfu": 0.36,
+          "sustained_pflops": 5269.392
+        },
+        "h200": {
+          "scenario_id": "frontier",
+          "gpu_key": "h200",
+          "n_gpu": 13320,
+          "days": 89.96750935858901,
+          "gpu_hours": 28760813.391753733,
+          "mfu": 0.4,
+          "sustained_pflops": 5269.392
+        },
+        "b200": {
+          "scenario_id": "frontier",
+          "gpu_key": "b200",
+          "n_gpu": 5576,
+          "days": 89.96873867483357,
+          "gpu_hours": 12039976.48442093,
+          "mfu": 0.42,
+          "sustained_pflops": 5269.32
+        },
+        "gb200": {
+          "scenario_id": "frontier",
+          "gpu_key": "gb200",
+          "n_gpu": 4752,
+          "days": 88.6782779786895,
+          "gpu_hours": 10113580.24691358,
+          "mfu": 0.45,
+          "sustained_pflops": 5346.0
+        }
+      }
+    },
+    "target_120d": {
+      "conservative": {
+        "h100": {
+          "scenario_id": "conservative",
+          "gpu_key": "h100",
+          "n_gpu": 1040,
+          "days": 120.02876849523292,
+          "gpu_hours": 2995918.0616410137,
+          "mfu": 0.36,
+          "sustained_pflops": 370.28159999999997
+        },
+        "h200": {
+          "scenario_id": "conservative",
+          "gpu_key": "h200",
+          "n_gpu": 936,
+          "days": 120.02876849523292,
+          "gpu_hours": 2696326.2554769125,
+          "mfu": 0.4,
+          "sustained_pflops": 370.2816
+        },
+        "b200": {
+          "scenario_id": "conservative",
+          "gpu_key": "b200",
+          "n_gpu": 392,
+          "days": 119.97744424048278,
+          "gpu_hours": 1128747.795414462,
+          "mfu": 0.42,
+          "sustained_pflops": 370.44
+        },
+        "gb200": {
+          "scenario_id": "conservative",
+          "gpu_key": "gb200",
+          "n_gpu": 360,
+          "days": 109.73936899862825,
+          "gpu_hours": 948148.1481481481,
+          "mfu": 0.45,
+          "sustained_pflops": 405.0
+        }
+      },
+      "baseline": {
+        "h100": {
+          "scenario_id": "baseline",
+          "gpu_key": "h100",
+          "n_gpu": 2776,
+          "days": 119.91346708457469,
+          "gpu_hours": 7989114.831042704,
+          "mfu": 0.36,
+          "sustained_pflops": 988.36704
+        },
+        "h200": {
+          "scenario_id": "baseline",
+          "gpu_key": "h200",
+          "n_gpu": 2496,
+          "days": 120.02876849523294,
+          "gpu_hours": 7190203.347938433,
+          "mfu": 0.4,
+          "sustained_pflops": 987.4176000000001
+        },
+        "b200": {
+          "scenario_id": "baseline",
+          "gpu_key": "b200",
+          "n_gpu": 1048,
+          "days": 119.67215812282252,
+          "gpu_hours": 3009994.1211052323,
+          "mfu": 0.42,
+          "sustained_pflops": 990.36
+        },
+        "gb200": {
+          "scenario_id": "baseline",
+          "gpu_key": "gb200",
+          "n_gpu": 936,
+          "days": 112.55319897295205,
+          "gpu_hours": 2528395.061728395,
+          "mfu": 0.45,
+          "sustained_pflops": 1053.0
+        }
+      },
+      "frontier": {
+        "h100": {
+          "scenario_id": "frontier",
+          "gpu_key": "h100",
+          "n_gpu": 11096,
+          "days": 119.99992236005023,
+          "gpu_hours": 31956459.324170817,
+          "mfu": 0.36,
+          "sustained_pflops": 3950.61984
+        },
+        "h200": {
+          "scenario_id": "frontier",
+          "gpu_key": "h200",
+          "n_gpu": 9992,
+          "days": 119.93266860052098,
+          "gpu_hours": 28760813.391753733,
+          "mfu": 0.4,
+          "sustained_pflops": 3952.8352
+        },
+        "b200": {
+          "scenario_id": "frontier",
+          "gpu_key": "b200",
+          "n_gpu": 4184,
+          "days": 119.90097678080116,
+          "gpu_hours": 12039976.48442093,
+          "mfu": 0.42,
+          "sustained_pflops": 3953.88
+        },
+        "gb200": {
+          "scenario_id": "frontier",
+          "gpu_key": "gb200",
+          "n_gpu": 3528,
+          "days": 119.44421115496952,
+          "gpu_hours": 10113580.24691358,
+          "mfu": 0.45,
+          "sustained_pflops": 3969.0
+        }
+      }
+    },
+    "fixed_gpu_baseline": {
+      "h100": [
+        {
+          "n_gpu": 512,
+          "days": 650.1558293491784,
+          "sustained_pflops": 182.29247999999998
+        },
+        {
+          "n_gpu": 1024,
+          "days": 325.0779146745892,
+          "sustained_pflops": 364.58495999999997
+        },
+        {
+          "n_gpu": 2048,
+          "days": 162.5389573372946,
+          "sustained_pflops": 729.1699199999999
+        },
+        {
+          "n_gpu": 4096,
+          "days": 81.2694786686473,
+          "sustained_pflops": 1458.3398399999999
+        },
+        {
+          "n_gpu": 8192,
+          "days": 40.63473933432365,
+          "sustained_pflops": 2916.6796799999997
+        },
+        {
+          "n_gpu": 16384,
+          "days": 20.317369667161824,
+          "sustained_pflops": 5833.3593599999995
+        }
+      ],
+      "h200": [
+        {
+          "n_gpu": 512,
+          "days": 585.1402464142606,
+          "sustained_pflops": 202.5472
+        },
+        {
+          "n_gpu": 1024,
+          "days": 292.5701232071303,
+          "sustained_pflops": 405.0944
+        },
+        {
+          "n_gpu": 2048,
+          "days": 146.28506160356514,
+          "sustained_pflops": 810.1888
+        },
+        {
+          "n_gpu": 4096,
+          "days": 73.14253080178257,
+          "sustained_pflops": 1620.3776
+        },
+        {
+          "n_gpu": 8192,
+          "days": 36.571265400891285,
+          "sustained_pflops": 3240.7552
+        },
+        {
+          "n_gpu": 16384,
+          "days": 18.285632700445642,
+          "sustained_pflops": 6481.5104
+        }
+      ],
+      "b200": [
+        {
+          "n_gpu": 512,
+          "days": 244.95394865765238,
+          "sustained_pflops": 483.84
+        },
+        {
+          "n_gpu": 1024,
+          "days": 122.47697432882619,
+          "sustained_pflops": 967.68
+        },
+        {
+          "n_gpu": 2048,
+          "days": 61.238487164413094,
+          "sustained_pflops": 1935.36
+        },
+        {
+          "n_gpu": 4096,
+          "days": 30.619243582206547,
+          "sustained_pflops": 3870.72
+        },
+        {
+          "n_gpu": 8192,
+          "days": 15.309621791103273,
+          "sustained_pflops": 7741.44
+        },
+        {
+          "n_gpu": 16384,
+          "days": 7.654810895551637,
+          "sustained_pflops": 15482.88
+        }
+      ],
+      "gb200": [
+        {
+          "n_gpu": 512,
+          "days": 205.76131687242795,
+          "sustained_pflops": 576.0
+        },
+        {
+          "n_gpu": 1024,
+          "days": 102.88065843621398,
+          "sustained_pflops": 1152.0
+        },
+        {
+          "n_gpu": 2048,
+          "days": 51.44032921810699,
+          "sustained_pflops": 2304.0
+        },
+        {
+          "n_gpu": 4096,
+          "days": 25.720164609053494,
+          "sustained_pflops": 4608.0
+        },
+        {
+          "n_gpu": 8192,
+          "days": 12.860082304526747,
+          "sustained_pflops": 9216.0
+        },
+        {
+          "n_gpu": 16384,
+          "days": 6.430041152263374,
+          "sustained_pflops": 18432.0
+        }
+      ]
+    }
+  },
+  "memory": {
+    "plans": {
+      "h100": {
+        "scenario_id": "baseline",
+        "gpu_key": "h100",
+        "tp": 8,
+        "pp": 8,
+        "ep": 8,
+        "dp": 57,
+        "cp": 1,
+        "mbs": 1,
+        "seq_len": 8192,
+        "zero_stage": 1,
+        "mem_per_gpu_gb": 18.961210475789475,
+        "feasible": true,
+        "note": "EP=8 切分 160 experts"
+      },
+      "h200": {
+        "scenario_id": "baseline",
+        "gpu_key": "h200",
+        "tp": 8,
+        "pp": 8,
+        "ep": 8,
+        "dp": 52,
+        "cp": 1,
+        "mbs": 1,
+        "seq_len": 8192,
+        "zero_stage": 1,
+        "mem_per_gpu_gb": 18.98145339076923,
+        "feasible": true,
+        "note": "EP=8 切分 160 experts"
+      },
+      "b200": {
+        "scenario_id": "baseline",
+        "gpu_key": "b200",
+        "tp": 8,
+        "pp": 8,
+        "ep": 8,
+        "dp": 21,
+        "cp": 1,
+        "mbs": 1,
+        "seq_len": 8192,
+        "zero_stage": 1,
+        "mem_per_gpu_gb": 19.322112731428575,
+        "feasible": true,
+        "note": "EP=8 切分 160 experts"
+      },
+      "gb200": {
+        "scenario_id": "baseline",
+        "gpu_key": "gb200",
+        "tp": 8,
+        "pp": 8,
+        "ep": 16,
+        "dp": 19,
+        "cp": 1,
+        "mbs": 1,
+        "seq_len": 8192,
+        "zero_stage": 1,
+        "mem_per_gpu_gb": 19.382263107368424,
+        "feasible": true,
+        "note": "EP=16 切分 160 experts"
+      }
+    },
+    "breakdown": {
+      "h100": {
+        "scenario_id": "baseline",
+        "gpu_key": "h100",
+        "tp": 8,
+        "pp": 8,
+        "dp": 16,
+        "cp": 1,
+        "seq": 8192,
+        "mbs": 1,
+        "bytes": {
+          "weight_bf16": 2000000000.0,
+          "grad_bf16": 2000000000.0,
+          "optim_fp32": 750000000.0,
+          "activation": 7381975040.0,
+          "buffer": 5368709120
+        },
+        "gb": {
+          "weight_bf16": 2.0,
+          "grad_bf16": 2.0,
+          "optim_fp32": 0.75,
+          "activation": 7.38197504,
+          "buffer": 5.36870912,
+          "total": 17.50068416
+        },
+        "hbm_gb": 80.0,
+        "headroom_pct": 78.12414480000001
+      },
+      "h200": {
+        "scenario_id": "baseline",
+        "gpu_key": "h200",
+        "tp": 8,
+        "pp": 8,
+        "dp": 16,
+        "cp": 1,
+        "seq": 8192,
+        "mbs": 1,
+        "bytes": {
+          "weight_bf16": 2000000000.0,
+          "grad_bf16": 2000000000.0,
+          "optim_fp32": 750000000.0,
+          "activation": 7381975040.0,
+          "buffer": 5368709120
+        },
+        "gb": {
+          "weight_bf16": 2.0,
+          "grad_bf16": 2.0,
+          "optim_fp32": 0.75,
+          "activation": 7.38197504,
+          "buffer": 5.36870912,
+          "total": 17.50068416
+        },
+        "hbm_gb": 141.0,
+        "headroom_pct": 87.58816726241136
+      },
+      "b200": {
+        "scenario_id": "baseline",
+        "gpu_key": "b200",
+        "tp": 8,
+        "pp": 8,
+        "dp": 16,
+        "cp": 1,
+        "seq": 8192,
+        "mbs": 1,
+        "bytes": {
+          "weight_bf16": 2000000000.0,
+          "grad_bf16": 2000000000.0,
+          "optim_fp32": 750000000.0,
+          "activation": 7381975040.0,
+          "buffer": 5368709120
+        },
+        "gb": {
+          "weight_bf16": 2.0,
+          "grad_bf16": 2.0,
+          "optim_fp32": 0.75,
+          "activation": 7.38197504,
+          "buffer": 5.36870912,
+          "total": 17.50068416
+        },
+        "hbm_gb": 192.0,
+        "headroom_pct": 90.88506033333333
+      },
+      "gb200": {
+        "scenario_id": "baseline",
+        "gpu_key": "gb200",
+        "tp": 8,
+        "pp": 8,
+        "dp": 16,
+        "cp": 1,
+        "seq": 8192,
+        "mbs": 1,
+        "bytes": {
+          "weight_bf16": 2000000000.0,
+          "grad_bf16": 2000000000.0,
+          "optim_fp32": 750000000.0,
+          "activation": 7381975040.0,
+          "buffer": 5368709120
+        },
+        "gb": {
+          "weight_bf16": 2.0,
+          "grad_bf16": 2.0,
+          "optim_fp32": 0.75,
+          "activation": 7.38197504,
+          "buffer": 5.36870912,
+          "total": 17.50068416
+        },
+        "hbm_gb": 192.0,
+        "headroom_pct": 90.88506033333333
+      }
+    }
+  },
+  "network": {
+    "comm": {
+      "ib_ndr": {
+        "nic_key": "ib_ndr",
+        "n_gpu": 1400,
+        "bytes_total": 128000000000.0,
+        "bandwidth_per_gpu_gbs": 40.0,
+        "allreduce_time_s": 6.395428571428572,
+        "a2a_time_s": 1.792,
+        "nic_bw_utilization": 0.8
+      },
+      "ib_xdr": {
+        "nic_key": "ib_xdr",
+        "n_gpu": 1400,
+        "bytes_total": 128000000000.0,
+        "bandwidth_per_gpu_gbs": 80.0,
+        "allreduce_time_s": 3.197714285714286,
+        "a2a_time_s": 0.896,
+        "nic_bw_utilization": 0.8
+      },
+      "spectrum_x_400": {
+        "nic_key": "spectrum_x_400",
+        "n_gpu": 1400,
+        "bytes_total": 128000000000.0,
+        "bandwidth_per_gpu_gbs": 40.0,
+        "allreduce_time_s": 6.395428571428572,
+        "a2a_time_s": 1.792,
+        "nic_bw_utilization": 0.8
+      },
+      "spectrum_x_800": {
+        "nic_key": "spectrum_x_800",
+        "n_gpu": 1400,
+        "bytes_total": 128000000000.0,
+        "bandwidth_per_gpu_gbs": 80.0,
+        "allreduce_time_s": 3.197714285714286,
+        "a2a_time_s": 0.896,
+        "nic_bw_utilization": 0.8
+      }
+    },
+    "topology": {
+      "ib_ndr": {
+        "nic_key": "ib_ndr",
+        "n_gpu": 1400,
+        "radix": 64,
+        "leaf_switches": 44,
+        "spine_switches": 22,
+        "core_switches": 11,
+        "total_switches": 77,
+        "total_nics": 1400,
+        "total_cables": 3512,
+        "cost_cny": {
+          "switches": 73150000,
+          "nics": 30800000,
+          "cables": 15804000,
+          "total": 119754000
+        }
+      },
+      "ib_xdr": {
+        "nic_key": "ib_xdr",
+        "n_gpu": 1400,
+        "radix": 144,
+        "leaf_switches": 44,
+        "spine_switches": 10,
+        "core_switches": 5,
+        "total_switches": 59,
+        "total_nics": 1400,
+        "total_cables": 3528,
+        "cost_cny": {
+          "switches": 112100000,
+          "nics": 58800000,
+          "cables": 28224000,
+          "total": 199124000
+        }
+      },
+      "spectrum_x_400": {
+        "nic_key": "spectrum_x_400",
+        "n_gpu": 1400,
+        "radix": 64,
+        "leaf_switches": 44,
+        "spine_switches": 22,
+        "core_switches": 11,
+        "total_switches": 77,
+        "total_nics": 1400,
+        "total_cables": 3512,
+        "cost_cny": {
+          "switches": 57750000,
+          "nics": 25200000,
+          "cables": 14048000,
+          "total": 96998000
+        }
+      },
+      "spectrum_x_800": {
+        "nic_key": "spectrum_x_800",
+        "n_gpu": 1400,
+        "radix": 128,
+        "leaf_switches": 44,
+        "spine_switches": 11,
+        "core_switches": 6,
+        "total_switches": 61,
+        "total_nics": 1400,
+        "total_cables": 3512,
+        "cost_cny": {
+          "switches": 97600000,
+          "nics": 50400000,
+          "cables": 25286400,
+          "total": 173286400
+        }
+      }
+    }
+  },
+  "storage": {
+    "comparison": {
+      "weka_nvme": {
+        "storage_key": "weka_nvme",
+        "dataset_pb": 0.08,
+        "dataset_load_hours": 0.011111111111111112,
+        "checkpoint_gb": 16000.0,
+        "checkpoint_write_s": 10.666666666666666,
+        "ckpt_overhead_pct": 0.07407407407407407
+      },
+      "lustre_hybrid": {
+        "storage_key": "lustre_hybrid",
+        "dataset_pb": 0.08,
+        "dataset_load_hours": 0.018518518518518517,
+        "checkpoint_gb": 16000.0,
+        "checkpoint_write_s": 17.77777777777778,
+        "ckpt_overhead_pct": 0.12345679012345678
+      },
+      "ceph_archive": {
+        "storage_key": "ceph_archive",
+        "dataset_pb": 0.08,
+        "dataset_load_hours": 0.1111111111111111,
+        "checkpoint_gb": 16000.0,
+        "checkpoint_write_s": 133.33333333333334,
+        "ckpt_overhead_pct": 0.925925925925926
+      }
+    },
+    "tiered_baseline": {
+      "tokenized_dataset_tb": 80.0,
+      "raw_corpus_pb": 2.0,
+      "checkpoint_each_tb": 16.0,
+      "checkpoint_keep_count": 20,
+      "checkpoint_total_pb": 0.32,
+      "tier0_hot_pb": 5.0,
+      "tier1_warm_pb": 20.0,
+      "tier2_cold_pb": 100.0
+    }
+  },
+  "power": {
+    "report_b200": {
+      "server_key": "hgx_b200",
+      "n_gpu": 2048,
+      "n_node": 256,
+      "n_rack": 32,
+      "p_it_kw": 3660.8,
+      "pue": 1.15,
+      "p_total_kw": 4209.92,
+      "annual_kwh": 36878899.2,
+      "annual_cny": 22127339.52,
+      "annual_co2_t": 21426.640435200003,
+      "annual_water_m3": 11063669.76,
+      "cooling_type": "板式液冷 (Direct-to-Chip Liquid Cooling)",
+      "rack_layout": "32 个 42U 机柜，每柜 64 张 GPU，约 114 kW/柜"
+    },
+    "report_gb200": {
+      "server_key": "gb200_nvl72",
+      "n_gpu": 2304,
+      "n_node": 32,
+      "n_rack": 32,
+      "p_it_kw": 3840.0,
+      "pue": 1.15,
+      "p_total_kw": 4416.0,
+      "annual_kwh": 38684160.0,
+      "annual_cny": 23210496.0,
+      "annual_co2_t": 22475.496959999997,
+      "annual_water_m3": 11605248.0,
+      "cooling_type": "整机柜液冷 (NVL72 全液冷, CDU 冗余)",
+      "rack_layout": "32 个 42U 机柜，每柜 72 张 GPU，约 120 kW/柜"
+    },
+    "report_h200": {
+      "server_key": "hgx_h200",
+      "n_gpu": 3328,
+      "n_node": 416,
+      "n_rack": 52,
+      "p_it_kw": 4326.4,
+      "pue": 1.15,
+      "p_total_kw": 4975.359999999999,
+      "annual_kwh": 43584153.59999999,
+      "annual_cny": 26150492.159999993,
+      "annual_co2_t": 25322.39324159999,
+      "annual_water_m3": 13075246.079999996,
+      "cooling_type": "板式液冷 (Direct-to-Chip Liquid Cooling)",
+      "rack_layout": "52 个 42U 机柜，每柜 64 张 GPU，约 83 kW/柜"
+    },
+    "report_h100": {
+      "server_key": "hgx_h100",
+      "n_gpu": 3704,
+      "n_node": 463,
+      "n_rack": 116,
+      "p_it_kw": 4722.6,
+      "pue": 1.4,
+      "p_total_kw": 6611.64,
+      "annual_kwh": 57917966.400000006,
+      "annual_cny": 34750779.84,
+      "annual_co2_t": 33650.3384784,
+      "annual_water_m3": 0.0,
+      "cooling_type": "风冷 (Air Cooled, 冷通道封闭)",
+      "rack_layout": "116 个 42U 机柜，每柜 32 张 GPU，约 41 kW/柜"
+    },
+    "pue_sweep": [
+      {
+        "pue": 1.08,
+        "annual_kwh": 34634096.64000001,
+        "annual_mwh": 34634.09664000001,
+        "annual_cny": 20780457.984000005,
+        "annual_co2_t": 20122.410147840004
+      },
+      {
+        "pue": 1.1,
+        "annual_kwh": 35275468.800000004,
+        "annual_mwh": 35275.4688,
+        "annual_cny": 21165281.28,
+        "annual_co2_t": 20495.0473728
+      },
+      {
+        "pue": 1.15,
+        "annual_kwh": 36878899.2,
+        "annual_mwh": 36878.8992,
+        "annual_cny": 22127339.52,
+        "annual_co2_t": 21426.640435200003
+      },
+      {
+        "pue": 1.2,
+        "annual_kwh": 38482329.6,
+        "annual_mwh": 38482.329600000005,
+        "annual_cny": 23089397.76,
+        "annual_co2_t": 22358.233497600002
+      },
+      {
+        "pue": 1.3,
+        "annual_kwh": 41689190.4,
+        "annual_mwh": 41689.1904,
+        "annual_cny": 25013514.24,
+        "annual_co2_t": 24221.419622399997
+      },
+      {
+        "pue": 1.4,
+        "annual_kwh": 44896051.199999996,
+        "annual_mwh": 44896.051199999994,
+        "annual_cny": 26937630.719999995,
+        "annual_co2_t": 26084.605747199996
+      },
+      {
+        "pue": 1.5,
+        "annual_kwh": 48102912.00000001,
+        "annual_mwh": 48102.912000000004,
+        "annual_cny": 28861747.200000003,
+        "annual_co2_t": 27947.791872
+      }
+    ]
+  },
+  "tco": {
+    "comparison_at_baseline": {
+      "hgx_h100|ib_ndr": {
+        "server_key": "hgx_h100",
+        "nic_key": "ib_ndr",
+        "n_gpu": 2048,
+        "capex": {
+          "server": 614400000,
+          "network": 174496000,
+          "storage": 290000000.0,
+          "facility": 110592000.0,
+          "software": 10240000,
+          "total": 1199728000.0
+        },
+        "opex_annual": {
+          "power": 19214254.079999994,
+          "salary": 9830400.0,
+          "headcount": 16.384,
+          "maintenance": 47989120.0,
+          "software": 16384000,
+          "network_egress": 4000000,
+          "total": 97417774.08
+        },
+        "capex_total_cny": 1199728000.0,
+        "opex_3y_cny": 292253322.24,
+        "tco_3y_cny": 1491981322.24,
+        "cny_per_gpu_hour": 32.6128796221685
+      },
+      "hgx_h200|ib_ndr": {
+        "server_key": "hgx_h200",
+        "nic_key": "ib_ndr",
+        "n_gpu": 2048,
+        "capex": {
+          "server": 755200000,
+          "network": 174496000,
+          "storage": 290000000.0,
+          "facility": 135936000.0,
+          "software": 10240000,
+          "total": 1365872000.0
+        },
+        "opex_annual": {
+          "power": 16092610.559999999,
+          "salary": 9830400.0,
+          "headcount": 16.384,
+          "maintenance": 54634880.0,
+          "software": 16384000,
+          "network_egress": 4000000,
+          "total": 100941890.56
+        },
+        "capex_total_cny": 1365872000.0,
+        "opex_3y_cny": 302825671.68,
+        "tco_3y_cny": 1668697671.68,
+        "cny_per_gpu_hour": 36.47568202166712
+      },
+      "hgx_b200|ib_ndr": {
+        "server_key": "hgx_b200",
+        "nic_key": "ib_ndr",
+        "n_gpu": 2048,
+        "capex": {
+          "server": 1049600000,
+          "network": 174496000,
+          "storage": 290000000.0,
+          "facility": 188928000.0,
+          "software": 10240000,
+          "total": 1713264000.0
+        },
+        "opex_annual": {
+          "power": 22127339.52,
+          "salary": 9830400.0,
+          "headcount": 16.384,
+          "maintenance": 68530560.0,
+          "software": 16384000,
+          "network_egress": 4000000,
+          "total": 120872299.52
+        },
+        "capex_total_cny": 1713264000.0,
+        "opex_3y_cny": 362616898.56,
+        "tco_3y_cny": 2075880898.56,
+        "cny_per_gpu_hour": 45.37620735965619
+      },
+      "hgx_b200|ib_xdr": {
+        "server_key": "hgx_b200",
+        "nic_key": "ib_xdr",
+        "n_gpu": 2048,
+        "capex": {
+          "server": 1049600000,
+          "network": 292724000,
+          "storage": 290000000.0,
+          "facility": 188928000.0,
+          "software": 10240000,
+          "total": 1831492000.0
+        },
+        "opex_annual": {
+          "power": 22127339.52,
+          "salary": 9830400.0,
+          "headcount": 16.384,
+          "maintenance": 68530560.0,
+          "software": 16384000,
+          "network_egress": 4000000,
+          "total": 120872299.52
+        },
+        "capex_total_cny": 1831492000.0,
+        "opex_3y_cny": 362616898.56,
+        "tco_3y_cny": 2194108898.56,
+        "cny_per_gpu_hour": 47.960526261303606
+      },
+      "gb200_nvl72|ib_xdr": {
+        "server_key": "gb200_nvl72",
+        "nic_key": "ib_xdr",
+        "n_gpu": 2048,
+        "capex": {
+          "server": 812000000,
+          "network": 292724000,
+          "storage": 290000000.0,
+          "facility": 146160000.0,
+          "software": 10240000,
+          "total": 1551124000.0
+        },
+        "opex_annual": {
+          "power": 21034511.999999996,
+          "salary": 9830400.0,
+          "headcount": 16.384,
+          "maintenance": 57315840.0,
+          "software": 16384000,
+          "network_egress": 4000000,
+          "total": 108564752.0
+        },
+        "capex_total_cny": 1551124000.0,
+        "opex_3y_cny": 325694256.0,
+        "tco_3y_cny": 1876818256.0,
+        "cny_per_gpu_hour": 41.02494243273794
+      }
+    },
+    "selected_plan_b200": {
+      "server_key": "hgx_b200",
+      "nic_key": "ib_xdr",
+      "n_gpu": 2048,
+      "capex": {
+        "server": 1049600000,
+        "network": 292724000,
+        "storage": 290000000.0,
+        "facility": 188928000.0,
+        "software": 10240000,
+        "total": 1831492000.0
+      },
+      "opex_annual": {
+        "power": 22127339.52,
+        "salary": 9830400.0,
+        "headcount": 16.384,
+        "maintenance": 68530560.0,
+        "software": 16384000,
+        "network_egress": 4000000,
+        "total": 120872299.52
+      },
+      "capex_total_cny": 1831492000.0,
+      "opex_3y_cny": 362616898.56,
+      "tco_3y_cny": 2194108898.56,
+      "cny_per_gpu_hour": 47.960526261303606
+    },
+    "selected_plan_gb200": {
+      "server_key": "gb200_nvl72",
+      "nic_key": "ib_xdr",
+      "n_gpu": 2304,
+      "capex": {
+        "server": 896000000,
+        "network": 325248000,
+        "storage": 290000000.0,
+        "facility": 161280000.0,
+        "software": 11520000,
+        "total": 1684048000.0
+      },
+      "opex_annual": {
+        "power": 23210496.0,
+        "salary": 11059200.0,
+        "headcount": 18.432,
+        "maintenance": 62204320.0,
+        "software": 18432000,
+        "network_egress": 4000000,
+        "total": 118906016.0
+      },
+      "capex_total_cny": 1684048000.0,
+      "opex_3y_cny": 356718048.0,
+      "tco_3y_cny": 2040766048.0,
+      "cny_per_gpu_hour": 39.65212430735866
+    }
+  },
+  "inference": {
+    "comparison_8k": {
+      "h100": {
+        "gpu_key": "h100",
+        "n_gpu_serving": 8,
+        "kv_per_token_bytes": 450560,
+        "kv_per_request_bytes": 3690987520,
+        "max_concurrent": 95,
+        "decode_throughput_tok_s": 209.375,
+        "prefill_latency_ms_8k": 240.96332383491125
+      },
+      "h200": {
+        "gpu_key": "h200",
+        "n_gpu_serving": 8,
+        "kv_per_token_bytes": 450560,
+        "kv_per_request_bytes": 3690987520,
+        "max_concurrent": 227,
+        "decode_throughput_tok_s": 300.0,
+        "prefill_latency_ms_8k": 240.96332383491125
+      },
+      "b200": {
+        "gpu_key": "b200",
+        "n_gpu_serving": 8,
+        "kv_per_token_bytes": 450560,
+        "kv_per_request_bytes": 3690987520,
+        "max_concurrent": 338,
+        "decode_throughput_tok_s": 500.0,
+        "prefill_latency_ms_8k": 105.91676767676768
+      },
+      "gb200": {
+        "gpu_key": "gb200",
+        "n_gpu_serving": 8,
+        "kv_per_token_bytes": 450560,
+        "kv_per_request_bytes": 3690987520,
+        "max_concurrent": 338,
+        "decode_throughput_tok_s": 500.0,
+        "prefill_latency_ms_8k": 95.32509090909092
+      }
+    },
+    "comparison_32k": {
+      "h100": {
+        "gpu_key": "h100",
+        "n_gpu_serving": 8,
+        "kv_per_token_bytes": 450560,
+        "kv_per_request_bytes": 14763950080,
+        "max_concurrent": 23,
+        "decode_throughput_tok_s": 209.375,
+        "prefill_latency_ms_8k": 240.96332383491125
+      },
+      "h200": {
+        "gpu_key": "h200",
+        "n_gpu_serving": 8,
+        "kv_per_token_bytes": 450560,
+        "kv_per_request_bytes": 14763950080,
+        "max_concurrent": 56,
+        "decode_throughput_tok_s": 300.0,
+        "prefill_latency_ms_8k": 240.96332383491125
+      },
+      "b200": {
+        "gpu_key": "b200",
+        "n_gpu_serving": 8,
+        "kv_per_token_bytes": 450560,
+        "kv_per_request_bytes": 14763950080,
+        "max_concurrent": 84,
+        "decode_throughput_tok_s": 500.0,
+        "prefill_latency_ms_8k": 105.91676767676768
+      },
+      "gb200": {
+        "gpu_key": "gb200",
+        "n_gpu_serving": 8,
+        "kv_per_token_bytes": 450560,
+        "kv_per_request_bytes": 14763950080,
+        "max_concurrent": 84,
+        "decode_throughput_tok_s": 500.0,
+        "prefill_latency_ms_8k": 95.32509090909092
+      }
+    },
+    "cluster_b200_256": {
+      "gpu_key": "b200",
+      "n_gpu_total": 256,
+      "n_replica": 32,
+      "tp_per_replica": 8,
+      "total_concurrent": 10816,
+      "decode_tok_s_per_replica": 500.0,
+      "qps_estimate_256tok": 21125.0
+    },
+    "cluster_gb200_144": {
+      "gpu_key": "gb200",
+      "n_gpu_total": 144,
+      "n_replica": 18,
+      "tp_per_replica": 8,
+      "total_concurrent": 6084,
+      "decode_tok_s_per_replica": 500.0,
+      "qps_estimate_256tok": 11882.8125
+    }
+  }
+}
