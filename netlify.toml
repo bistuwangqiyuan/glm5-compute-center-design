@@ -1,0 +1,14 @@
+# Static site lives in web/; default Netlify publish root had no index.html (404 on /).
+[build]
+  publish = "web"
+
+# Old deploys were served under /web/; keep those URLs working after publish dir change.
+[[redirects]]
+  from = "/web/*"
+  to = "/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/web"
+  to = "/"
+  status = 301
