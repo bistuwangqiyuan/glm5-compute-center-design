@@ -31,6 +31,16 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = REPO_ROOT / "web" / "data" / "computed.json"
 
 
+def _reconfigure_stdout_utf8() -> None:
+    """Avoid UnicodeEncodeError on Windows GBK consoles (e.g. ¥ in selftest logs)."""
+    out = sys.stdout
+    if hasattr(out, "reconfigure"):
+        try:
+            out.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, OSError, ValueError):
+            pass
+
+
 def build_payload() -> dict:
     # 1) Scaling Law / 算力 ----------------------------------------------------
     scaling = SL.all_reports()
@@ -134,6 +144,7 @@ def write_json(payload: dict, pretty: bool = True) -> Path:
 
 
 def selftest_all() -> None:
+    _reconfigure_stdout_utf8()
     print("=== run_all selftest ===")
     SL._selftest()
     CS._selftest()
@@ -143,10 +154,11 @@ def selftest_all() -> None:
     PC._selftest()
     TCO._selftest()
     INF._selftest()
-    print("ALL OK ✔")
+    print("ALL OK [OK]")
 
 
 def main() -> None:
+    _reconfigure_stdout_utf8()
     if "--check" in sys.argv:
         selftest_all()
         return
@@ -154,7 +166,7 @@ def main() -> None:
     payload = build_payload()
     path = write_json(payload, pretty=pretty)
     size = path.stat().st_size
-    print(f"✔ 写入 {path.relative_to(REPO_ROOT)}  ({size/1024:.1f} KB)")
+    print(f"[OK] 写入 {path.relative_to(REPO_ROOT)}  ({size/1024:.1f} KB)")
     print(f"  schema_version = {payload['schema_version']}")
     print(f"  generated_at   = {payload['generated_at']}")
 

@@ -124,9 +124,9 @@ def comparison(n_gpu: int = 2048) -> Dict[str, dict]:
 
 def _selftest() -> None:
     r = report("hgx_b200", "ib_ndr", 2048)
-    print(f"[tco] B200 2048GPU CAPEX={r.capex_total_cny/1e8:.2f} 亿 ¥   "
-          f"OPEX 3y={r.opex_3y_cny/1e8:.2f} 亿 ¥   TCO={r.tco_3y_cny/1e8:.2f} 亿 ¥   "
-          f"GPU·h 单价={r.cny_per_gpu_hour:.1f} ¥  ✔")
+    print(f"[tco] B200 2048GPU CAPEX={r.capex_total_cny/1e8:.2f} 亿 CNY   "
+          f"OPEX 3y={r.opex_3y_cny/1e8:.2f} 亿 CNY   TCO={r.tco_3y_cny/1e8:.2f} 亿 CNY   "
+          f"GPU·h 单价={r.cny_per_gpu_hour:.1f} CNY  [OK]")
     # B200 2048 整机 256 节点 × 4.1 M = 1049 M (10.5 亿)
     assert 8e8 < r.capex_total_cny < 25e8
 

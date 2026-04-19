@@ -90,7 +90,7 @@ def pue_sweep(p_it_kw: float, pue_values: List[float] = None) -> List[dict]:
 def _selftest() -> None:
     r = report("hgx_b200", 2048)
     print(f"[power] B200 2048GPU IT={r.p_it_kw:.0f} kW Total={r.p_total_kw:.0f} kW "
-          f"年电费 {r.annual_cny/1e6:.1f} M¥  CO₂ {r.annual_co2_t:.0f} t  ✔")
+          f"年电费 {r.annual_cny/1e6:.1f} M-CNY  CO₂ {r.annual_co2_t:.0f} t  [OK]")
     # 2048 GPU / 8 = 256 节点 × 14.3 kW = 3661 kW IT
     assert 3000 < r.p_it_kw < 4500
     assert r.pue == C.PUE_LIQUID

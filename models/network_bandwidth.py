@@ -110,11 +110,11 @@ def topology_estimate(n_gpu: int, nic_key: str) -> dict:
 
 def _selftest() -> None:
     r = report("ib_ndr", 2048)
-    print(f"[network] IB NDR 2048 GPU AllReduce 64 GB grad: {r.allreduce_time_s*1000:.1f} ms  ✔")
+    print(f"[network] IB NDR 2048 GPU AllReduce 64 GB grad: {r.allreduce_time_s*1000:.1f} ms  [OK]")
     assert r.allreduce_time_s > 0
     t = topology_estimate(2048, "ib_ndr")
     print(f"[network] Fat-tree 2048 GPU IB-NDR: leaf={t['leaf_switches']} spine={t['spine_switches']} "
-          f"cost={t['cost_cny']['total']/1e6:.1f} M¥  ✔")
+          f"cost={t['cost_cny']['total']/1e6:.1f} M-CNY  [OK]")
 
 
 if __name__ == "__main__":

@@ -92,10 +92,10 @@ def _selftest() -> None:
     cp = gpus_for_target_days("baseline", "b200", target_days=90)
     # baseline FLOPs ~ 1.024e25
     # 1.024e25 / (2250e12 * 0.42 * 90 * 86400) = 1.024e25 / 7.35e21 ≈ 1394
-    print(f"[cluster_sizing] B200 90d → n_gpu={cp.n_gpu}, sustained={cp.sustained_pflops:.1f} PFLOPS  ✔")
+    print(f"[cluster_sizing] B200 90d → n_gpu={cp.n_gpu}, sustained={cp.sustained_pflops:.1f} PFLOPS  [ok]")
     assert 1000 <= cp.n_gpu <= 2500
     cp_h = gpus_for_target_days("baseline", "h100", target_days=90)
-    print(f"[cluster_sizing] H100 90d → n_gpu={cp_h.n_gpu}  ✔")
+    print(f"[cluster_sizing] H100 90d → n_gpu={cp_h.n_gpu}  [ok]")
     assert cp_h.n_gpu > cp.n_gpu * 2  # H100 慢得多
 
 

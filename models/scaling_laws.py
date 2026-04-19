@@ -93,7 +93,7 @@ def _selftest() -> None:
     assert r.flops_engineering > 1.0e25 * 0.9
     assert r.flops_engineering < 1.1e25
     print(f"[scaling_laws] baseline FLOPs = {r.flops_engineering:.3e} = "
-          f"{r.petaflop_day:,.0f} PetaFLOP-day  ✔")
+          f"{r.petaflop_day:,.0f} PetaFLOP-day  [OK]")
 
 
 if __name__ == "__main__":

@@ -96,10 +96,10 @@ def cluster_qps(gpu_key: str, n_gpu_total: int, seq_len: int = 8192,
 def _selftest() -> None:
     r = report("h200", seq_len=8192)
     print(f"[inference] H200 TP8 8K-seq concurrent={r.max_concurrent} "
-          f"decode={r.decode_throughput_tok_s:.0f} tok/s prefill={r.prefill_latency_ms_8k:.1f} ms  ✔")
+          f"decode={r.decode_throughput_tok_s:.0f} tok/s prefill={r.prefill_latency_ms_8k:.1f} ms  [ok]")
     assert r.max_concurrent > 0
     c = cluster_qps("b200", 256)
-    print(f"[inference] B200 256GPU cluster QPS≈{c['qps_estimate_256tok']:.0f}  ✔")
+    print(f"[inference] B200 256GPU cluster QPS≈{c['qps_estimate_256tok']:.0f}  [ok]")
 
 
 if __name__ == "__main__":

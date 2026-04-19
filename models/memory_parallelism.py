@@ -141,11 +141,11 @@ def all_plans(target_n_gpu_by_gpu: Dict[str, int]) -> Dict[str, dict]:
 def _selftest() -> None:
     p = design_plan("baseline", "b200", target_n_gpu=2048)
     print(f"[memory_parallelism] B200 2048 → TP{p.tp} PP{p.pp} EP{p.ep} DP{p.dp} "
-          f"mem={p.mem_per_gpu_gb:.1f} GB  feasible={p.feasible}  ✔")
+          f"mem={p.mem_per_gpu_gb:.1f} GB  feasible={p.feasible}  [OK]")
     assert p.tp == 8
     bd = memory_breakdown("baseline", "b200")
     assert bd["gb"]["total"] > 0
-    print(f"[memory_parallelism] breakdown total={bd['gb']['total']:.1f} GB / HBM {bd['hbm_gb']} GB  ✔")
+    print(f"[memory_parallelism] breakdown total={bd['gb']['total']:.1f} GB / HBM {bd['hbm_gb']} GB  [OK]")
 
 
 if __name__ == "__main__":

@@ -102,10 +102,10 @@ def _selftest() -> None:
     r = report("weka_nvme")
     print(f"[storage] tokenized dataset {r.dataset_pb*1000:.0f} TB; "
           f"ckpt {r.checkpoint_gb/1024:.1f} TB / {r.checkpoint_write_s:.0f}s; "
-          f"overhead {r.ckpt_overhead_pct:.3f}%  ✔")
+          f"overhead {r.ckpt_overhead_pct:.3f}%  [OK]")
     assert r.dataset_pb > 0.05      # baseline 20T tokens × 4 B = 80 TB ≈ 0.08 PB
     t = tiered_design("baseline")
-    print(f"[storage] tiered: T0={t['tier0_hot_pb']} T1={t['tier1_warm_pb']:.0f} T2={t['tier2_cold_pb']:.0f} PB  ✔")
+    print(f"[storage] tiered: T0={t['tier0_hot_pb']} T1={t['tier1_warm_pb']:.0f} T2={t['tier2_cold_pb']:.0f} PB  [OK]")
     assert t["tier0_hot_pb"] >= 1.0
     assert t["tier1_warm_pb"] >= 10.0
 
