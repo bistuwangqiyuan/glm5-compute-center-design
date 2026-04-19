@@ -416,8 +416,227 @@
   <h1 class="ch-title">把 2 000+ 张 GPU 怎么"接起来"？</h1>
   <p class="ch-sub">
     单 GPU 算力再高也只是孤岛。现代大模型训练 95 % 的工程难度在<strong>系统架构与通信网络</strong>上。
-    本节自底向上：节点 → 机柜 → NVLink 域 → InfiniBand Fat-tree。
+    本节先给出整体架构总览，再自底向上：节点 → 机柜 → NVLink 域 → InfiniBand Fat-tree。
   </p>
+
+  <h2>5.0 算力中心整体架构图</h2>
+  <p>下图把"应用 → 框架 → 算力 → 网络 → 存储 → 设施"6 层堆栈与"北京主集群 + 乌兰察布备份/推理"双站部署一次画清。
+     图中每个数字都与第 ③-⑩ 章可复算输出一致。</p>
+
+  <svg class="diagram arch-overview" viewBox="0 0 1080 940" role="img" aria-label="GLM-5.1 算力中心端到端总体架构图">
+    <defs>
+      <marker id="aoArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="#aeb9cd"/>
+      </marker>
+      <linearGradient id="aoNV" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="rgba(118,185,0,0.18)"/>
+        <stop offset="1" stop-color="rgba(118,185,0,0.03)"/>
+      </linearGradient>
+      <linearGradient id="aoZH" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="rgba(44,126,255,0.18)"/>
+        <stop offset="1" stop-color="rgba(44,126,255,0.03)"/>
+      </linearGradient>
+      <linearGradient id="aoWN" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stop-color="rgba(245,158,11,0.18)"/>
+        <stop offset="1" stop-color="rgba(245,158,11,0.03)"/>
+      </linearGradient>
+    </defs>
+
+    <text x="540" y="22" text-anchor="middle" style="font-size:15px;font-weight:700">
+      GLM-5.1 算力中心 · 端到端总体架构 (Beijing 主集群 + Wulanchabu 备份/推理)
+    </text>
+
+    <!-- ====== Two-Site bar ====== -->
+    <g>
+      <rect x="80"  y="40" width="430" height="62" rx="8" fill="url(#aoZH)" stroke="#2c7eff" stroke-width="1.2"/>
+      <text x="295" y="62" text-anchor="middle" style="font-weight:700;fill:#7eb6ff">★ 主集群 · 北京 / 廊坊</text>
+      <text x="295" y="80" text-anchor="middle" class="lbl">2 048 × B200 · 3.66 MW IT · PUE 1.15</text>
+      <text x="295" y="96" text-anchor="middle" class="lbl" style="font-size:10px">90 天可完成 GLM-5.1 baseline (1 T / 20 T tokens) 预训练</text>
+
+      <line x1="510" y1="65" x2="568" y2="65" stroke="#aeb9cd" stroke-dasharray="4,3" marker-end="url(#aoArr)"/>
+      <line x1="568" y1="80" x2="510" y2="80" stroke="#aeb9cd" stroke-dasharray="4,3" marker-end="url(#aoArr)"/>
+      <text x="540" y="58" text-anchor="middle" class="lbl" style="font-size:10px">1 200 km</text>
+      <text x="540" y="96" text-anchor="middle" class="lbl" style="font-size:10px">8-12 ms</text>
+
+      <rect x="570" y="40" width="430" height="62" rx="8" fill="url(#aoNV)" stroke="#76b900" stroke-width="1.2"/>
+      <text x="785" y="62" text-anchor="middle" style="font-weight:700;fill:#a3d75a">备份 / 推理 · 乌兰察布</text>
+      <text x="785" y="80" text-anchor="middle" class="lbl">256 × B200 · 0.46 MW · PUE 1.10</text>
+      <text x="785" y="96" text-anchor="middle" class="lbl" style="font-size:10px">东数西算枢纽 · 自然冷源 · ≈ 21K QPS 在线</text>
+    </g>
+
+    <line x1="540" y1="105" x2="540" y2="125" stroke="#aeb9cd" marker-end="url(#aoArr)"/>
+
+    <!-- ====== L1 Applications ====== -->
+    <g>
+      <rect x="80" y="130" width="980" height="80" rx="6" fill="rgba(255,255,255,0.015)" stroke="#1f2a3e"/>
+      <text x="14" y="173" style="font-size:11px;font-weight:700;fill:#76b900">L1</text>
+      <text x="14" y="187" class="lbl" style="font-size:10px">应用</text>
+
+      <rect x="100" y="148" width="220" height="46" rx="5" class="box-zh"/>
+      <text x="210" y="170" text-anchor="middle" style="font-weight:700">GLM-5.1 预训练</text>
+      <text x="210" y="186" text-anchor="middle" class="lbl">20 T tokens · 90 天连训</text>
+
+      <rect x="340" y="148" width="220" height="46" rx="5" class="box-zh"/>
+      <text x="450" y="170" text-anchor="middle" style="font-weight:700">中训练 + 后训练</text>
+      <text x="450" y="186" text-anchor="middle" class="lbl">SFT · DPO · RLVR · 对齐</text>
+
+      <rect x="580" y="148" width="220" height="46" rx="5" class="box-nv"/>
+      <text x="690" y="170" text-anchor="middle" style="font-weight:700">推理服务</text>
+      <text x="690" y="186" text-anchor="middle" class="lbl">B/C API · Agent · Tool</text>
+
+      <rect x="820" y="148" width="220" height="46" rx="5" class="box"/>
+      <text x="930" y="170" text-anchor="middle" style="font-weight:700">评测 / 安全对齐</text>
+      <text x="930" y="186" text-anchor="middle" class="lbl">MMLU · CEval · Red-team</text>
+    </g>
+    <line x1="540" y1="210" x2="540" y2="232" stroke="#aeb9cd" marker-end="url(#aoArr)"/>
+
+    <!-- ====== L2 Framework / Scheduler ====== -->
+    <g>
+      <rect x="80" y="232" width="980" height="138" rx="6" fill="rgba(255,255,255,0.015)" stroke="#1f2a3e"/>
+      <text x="14" y="285" style="font-size:11px;font-weight:700;fill:#76b900">L2</text>
+      <text x="14" y="299" class="lbl" style="font-size:10px">框架</text>
+      <text x="14" y="313" class="lbl" style="font-size:10px">调度</text>
+
+      <rect x="100" y="248" width="445" height="50" rx="5" fill="rgba(44,126,255,0.06)" stroke="#2c7eff" stroke-width="1"/>
+      <text x="125" y="266" style="font-size:11px;font-weight:700;fill:#7eb6ff">训练栈 TRAIN</text>
+      <text x="225" y="284" class="lbl">Megatron-Core</text>
+      <text x="335" y="284" class="lbl">DeepSpeed</text>
+      <text x="415" y="284" class="lbl">FlashAttn-3</text>
+      <text x="500" y="284" class="lbl">TE FP8/FP4</text>
+
+      <rect x="555" y="248" width="485" height="50" rx="5" fill="rgba(118,185,0,0.06)" stroke="#76b900" stroke-width="1"/>
+      <text x="580" y="266" style="font-size:11px;font-weight:700;fill:#a3d75a">推理栈 SERVE</text>
+      <text x="660" y="284" class="lbl">vLLM</text>
+      <text x="720" y="284" class="lbl">TRT-LLM</text>
+      <text x="800" y="284" class="lbl">Dynamo</text>
+      <text x="875" y="284" class="lbl">Triton</text>
+      <text x="945" y="284" class="lbl">SGLang</text>
+
+      <rect x="100" y="308" width="940" height="50" rx="5" class="box"/>
+      <text x="125" y="326" style="font-size:11px;font-weight:700;fill:#aeb9cd">调度 · I/O · 监控 · 通信</text>
+      <text x="295" y="345" text-anchor="middle" class="lbl">Slurm + K8s + Run:AI</text>
+      <text x="500" y="345" text-anchor="middle" class="lbl">Magnum IO + GDS</text>
+      <text x="700" y="345" text-anchor="middle" class="lbl">Prometheus + Grafana</text>
+      <text x="900" y="345" text-anchor="middle" class="lbl">NCCL + UCX</text>
+    </g>
+    <line x1="540" y1="370" x2="540" y2="392" stroke="#aeb9cd" marker-end="url(#aoArr)"/>
+
+    <!-- ====== L3 Compute ====== -->
+    <g>
+      <rect x="80" y="392" width="980" height="100" rx="6" fill="url(#aoNV)" stroke="#76b900" stroke-width="1"/>
+      <text x="14" y="438" style="font-size:11px;font-weight:700;fill:#76b900">L3</text>
+      <text x="14" y="452" class="lbl" style="font-size:10px">算力</text>
+
+      <rect x="100" y="408" width="540" height="68" rx="5" class="box-nv"/>
+      <text x="370" y="432" text-anchor="middle" style="font-weight:700;fill:#cbe48b">主算力池 · 256 × HGX B200 节点</text>
+      <text x="370" y="450" text-anchor="middle" class="lbl">2 048 × B200 GPU · NVSwitch 8-GPU 域 · 3.66 MW IT</text>
+      <text x="370" y="466" text-anchor="middle" class="lbl">峰值 4.6 EFLOPS BF16 · 9.2 EFLOPS FP8 · 18.4 EFLOPS FP4</text>
+
+      <rect x="650" y="408" width="240" height="68" rx="5" class="box-nv"/>
+      <text x="770" y="432" text-anchor="middle" style="font-weight:700;fill:#cbe48b">★ 升级位 · GB200 NVL72</text>
+      <text x="770" y="450" text-anchor="middle" class="lbl">32 机柜 = 2 304 GPU 超节点</text>
+      <text x="770" y="466" text-anchor="middle" class="lbl">72-GPU NVLink 域 内部 TP+PP+EP</text>
+
+      <rect x="900" y="408" width="140" height="68" rx="5" class="box"/>
+      <text x="970" y="432" text-anchor="middle" style="font-weight:700">CPU 控制层</text>
+      <text x="970" y="450" text-anchor="middle" class="lbl">512 颗 Xeon</text>
+      <text x="970" y="466" text-anchor="middle" class="lbl">Platinum 8568Y+</text>
+    </g>
+    <line x1="540" y1="492" x2="540" y2="514" stroke="#aeb9cd" marker-end="url(#aoArr)"/>
+
+    <!-- ====== L4 Interconnect ====== -->
+    <g>
+      <rect x="80" y="514" width="980" height="100" rx="6" fill="rgba(255,255,255,0.015)" stroke="#1f2a3e"/>
+      <text x="14" y="560" style="font-size:11px;font-weight:700;fill:#76b900">L4</text>
+      <text x="14" y="574" class="lbl" style="font-size:10px">网络</text>
+
+      <rect x="100" y="530" width="300" height="68" rx="5" class="box-nv"/>
+      <text x="250" y="554" text-anchor="middle" style="font-weight:700">节点内 · NVLink-5</text>
+      <text x="250" y="572" text-anchor="middle" class="lbl">NVSwitch · 1.8 TB/s × 8 GPU</text>
+      <text x="250" y="588" text-anchor="middle" class="lbl">承载 TP + PP + EP</text>
+
+      <rect x="420" y="530" width="380" height="68" rx="5" class="box-zh"/>
+      <text x="610" y="554" text-anchor="middle" style="font-weight:700;fill:#7eb6ff">节点间 · InfiniBand XDR Fat-tree</text>
+      <text x="610" y="572" text-anchor="middle" class="lbl">800 G/口 · 64 Leaf + 32 Spine + 16 Core = 112 SW</text>
+      <text x="610" y="588" text-anchor="middle" class="lbl">非阻塞 1:1 · 承载跨节点 DP All-Reduce</text>
+
+      <rect x="820" y="530" width="220" height="68" rx="5" class="box"/>
+      <text x="930" y="554" text-anchor="middle" style="font-weight:700">管理 / 带外</text>
+      <text x="930" y="572" text-anchor="middle" class="lbl">25/100 GbE + BMC Redfish</text>
+      <text x="930" y="588" text-anchor="middle" class="lbl">Spectrum-X 800G 备选</text>
+    </g>
+    <line x1="540" y1="614" x2="540" y2="636" stroke="#aeb9cd" marker-end="url(#aoArr)"/>
+
+    <!-- ====== L5 Storage ====== -->
+    <g>
+      <rect x="80" y="636" width="980" height="100" rx="6" fill="rgba(255,255,255,0.015)" stroke="#1f2a3e"/>
+      <text x="14" y="682" style="font-size:11px;font-weight:700;fill:#76b900">L5</text>
+      <text x="14" y="696" class="lbl" style="font-size:10px">存储</text>
+
+      <rect x="100" y="652" width="305" height="68" rx="5" class="box-nv"/>
+      <text x="252" y="676" text-anchor="middle" style="font-weight:700;fill:#cbe48b">Tier-0 热 · WekaFS 全 NVMe</text>
+      <text x="252" y="694" text-anchor="middle" class="lbl">5 PB · 2 TB/s 读 · 1.5 TB/s 写</text>
+      <text x="252" y="710" text-anchor="middle" class="lbl">Checkpoint + 当前 batch</text>
+
+      <rect x="425" y="652" width="305" height="68" rx="5" class="box-zh"/>
+      <text x="577" y="676" text-anchor="middle" style="font-weight:700;fill:#7eb6ff">Tier-1 温 · Lustre + DDN</text>
+      <text x="577" y="694" text-anchor="middle" class="lbl">50 PB · 1.2 TB/s</text>
+      <text x="577" y="710" text-anchor="middle" class="lbl">数据集 · 历史 ckpt</text>
+
+      <rect x="750" y="652" width="290" height="68" rx="5" class="box"/>
+      <text x="895" y="676" text-anchor="middle" style="font-weight:700">Tier-2 冷 · Ceph QLC</text>
+      <text x="895" y="694" text-anchor="middle" class="lbl">100 PB · 200 GB/s</text>
+      <text x="895" y="710" text-anchor="middle" class="lbl">原始抓取 + 历史模型</text>
+    </g>
+    <line x1="540" y1="736" x2="540" y2="758" stroke="#aeb9cd" marker-end="url(#aoArr)"/>
+
+    <!-- ====== L6 Facilities ====== -->
+    <g>
+      <rect x="80" y="758" width="980" height="118" rx="6" fill="url(#aoWN)" stroke="#f59e0b" stroke-width="1"/>
+      <text x="14" y="813" style="font-size:11px;font-weight:700;fill:#f59e0b">L6</text>
+      <text x="14" y="827" class="lbl" style="font-size:10px">机房</text>
+      <text x="14" y="841" class="lbl" style="font-size:10px">设施</text>
+
+      <rect x="100" y="774" width="225" height="86" rx="5" fill="rgba(245,158,11,0.10)" stroke="#f59e0b"/>
+      <text x="212" y="796" text-anchor="middle" style="font-weight:700;fill:#fbc77d">液冷制冷</text>
+      <text x="212" y="816" text-anchor="middle" class="lbl">板式 DLC · 35/45 ℃</text>
+      <text x="212" y="832" text-anchor="middle" class="lbl">单柜 80–100 kW</text>
+      <text x="212" y="848" text-anchor="middle" class="lbl">PUE 1.15 · ASHRAE W3</text>
+
+      <rect x="345" y="774" width="225" height="86" rx="5" fill="rgba(245,158,11,0.10)" stroke="#f59e0b"/>
+      <text x="457" y="796" text-anchor="middle" style="font-weight:700;fill:#fbc77d">配电</text>
+      <text x="457" y="816" text-anchor="middle" class="lbl">10 kV 双路市电</text>
+      <text x="457" y="832" text-anchor="middle" class="lbl">→ 干变 → 0.4 kV</text>
+      <text x="457" y="848" text-anchor="middle" class="lbl">母线槽 Busway</text>
+
+      <rect x="590" y="774" width="225" height="86" rx="5" fill="rgba(245,158,11,0.10)" stroke="#f59e0b"/>
+      <text x="702" y="796" text-anchor="middle" style="font-weight:700;fill:#fbc77d">应急 / 冗余</text>
+      <text x="702" y="816" text-anchor="middle" class="lbl">UPS Li-ion 10 min</text>
+      <text x="702" y="832" text-anchor="middle" class="lbl">柴发 N+1</text>
+      <text x="702" y="848" text-anchor="middle" class="lbl">CDU 双路冗余</text>
+
+      <rect x="835" y="774" width="205" height="86" rx="5" fill="rgba(245,158,11,0.10)" stroke="#f59e0b"/>
+      <text x="937" y="796" text-anchor="middle" style="font-weight:700;fill:#fbc77d">机房布局</text>
+      <text x="937" y="816" text-anchor="middle" class="lbl">32 液冷 + 4 网 + 4 存</text>
+      <text x="937" y="832" text-anchor="middle" class="lbl">≈ 600 m² 机房</text>
+      <text x="937" y="848" text-anchor="middle" class="lbl">总功率 4.21 MW</text>
+    </g>
+
+    <text x="540" y="908" text-anchor="middle" class="lbl">
+      所有数字 = Baseline (1 T 总参 / 64 B 激活 · B200 × 2 048 · PUE 1.15) · 由 models/run_all.py 计算 · 见 §3-§10 详细推导
+    </text>
+    <text x="540" y="925" text-anchor="middle" class="lbl" style="font-size:10px">
+      色板 · NV-Green 算力 / 推理 ｜ Zhipu-Blue 训练 / 网络 ｜ Amber 设施 ｜ Slate 通用模块
+    </text>
+  </svg>
+
+  <div class="callout">
+    <span class="label">怎么读这张图</span>
+    自上而下 6 层是<strong>"问题域 → 实现栈"</strong>的下钻顺序：业务想做什么 (L1)，
+    用什么框架 (L2)，跑在什么算力 (L3)，怎么连起来 (L4)，数据放哪 (L5)，
+    机房怎么供电散热 (L6)。
+    左右两站则体现<strong>"东数西算"</strong>政策下的"近端训练 + 远端推理 + 灾备"现代部署模式。
+  </div>
 
   <h2>5.1 单节点 (HGX B200) 拆解</h2>
   <table class="data">
